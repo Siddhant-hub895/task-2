@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch App - Compact</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <script defer src="script.js"></script>
+
+
+  <style>
+.neon-card {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.gradient-text {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+
+  background: linear-gradient(
+    45deg,
+    #ff9a9e, 
+    #fcb045, 
+    #00f5a0, 
+    #00c3ff, 
+    #ff6ec7 
+  );
+  
+  background-size: 300% 300%; 
+
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  
+  background-clip: text; 
+  color: transparent; 
+
+  font-weight: bold;
+  animation: gradientMove 4s linear infinite;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+
+
+.neon-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    120deg,
+    #22d3ee,
+    #6366f1,
+    #ec4899,
+    #22d3ee
+  );
+  background-size: 300% 300%;
+  animation: neonBorder 6s linear infinite;
+
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+
+  pointer-events: none;
+}
+
+@keyframes neonBorder {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.neon-number {
+  color: #e0f2fe;
+  text-shadow:
+    0 0 6px #22d3ee,
+    0 0 18px #22d3ee,
+    0 0 36px #6366f1;
+}
+
+
+.running .neon-number {
+  animation: pulseGlow 0.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+  from {
+    text-shadow:
+      0 0 6px #22d3ee,
+      0 0 16px #22d3ee;
+  }
+  to {
+    text-shadow:
+      0 0 14px #ec4899,
+      0 0 32px #ec4899;
+  }
+}
+
+
+.neon-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.neon-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: translateX(-100%);
+}
+
+.neon-btn:hover::after {
+  transform: translateX(100%);
+  transition: transform 0.6s;
+}
+
+.neon-btn:hover {
+  box-shadow:
+    0 0 10px currentColor,
+    0 0 25px currentColor;
+  transform: translateY(-1px);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.dark .glass {
+  background: rgba(17, 24, 39, 0.55);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+
+.neon-card {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.neon-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
+  background: linear-gradient(120deg, #22d3ee, #6366f1, #ec4899, #22d3ee);
+  background-size: 300% 300%;
+  animation: neonBorder 6s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+
+.neon-number {
+  color: #e0f2fe;
+  text-shadow: 0 0 6px #22d3ee, 0 0 18px #22d3ee, 0 0 36px #6366f1;
+}
+
+
+
+
+
+
+@keyframes pulseGlow {
+  from {
+    text-shadow: 0 0 6px #22d3ee, 0 0 16px #22d3ee;
+  }
+  to {
+    text-shadow: 0 0 14px #ec4899, 0 0 32px #ec4899;
+  }
+}
+
+
+@keyframes neonBorder {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+
+
+
+
+
+
+</style>
+
+</head>
+<body class="relative min-h-screen text-gray-900 dark:text-gray-100">
+
+ 
+  <div class="absolute inset-0 bg-cover bg-center z-0" 
+       style="background-image: url('images/background.jpeg');"></div>
+
+ <nav class="relative z-10 w-full p-4 flex flex-col gap-2 bg-gray-900 dark:bg-indigo-800 shadow-lg rounded-b-md">
+  <div class="flex items-center justify-between w-full">
+   
+    <div class="flex items-center gap-3">
+      <div id="miniStopwatchCard" class="neon-card bg-gray-900 dark:bg-indigo-800 p-2 rounded-xl flex flex-col items-center justify-center w-28 h-12">
+        <div class="text-xs text-gray-300 dark:text-gray-200">Time</div>
+        <div id="miniStopwatch" class="neon-number text-sm md:text-base font-mono font-bold">00:00:00</div>
+      </div>
+
+    
+  <span class="gradient-text font-bold text-lg md:text-xl ml-2">
+    Stopwatch
+  </span>
+
+    
+      <span id="miniStatus" class="ml-1 bg-pink-500 text-white px-2 py-0.5 rounded-full text-xs animate-pulse hidden">
+        Running
+      </span>
+    </div>
+
+    
+    <div class="flex items-center gap-3">
+      <a href="#records" id="historyIcon" class="text-cyan-400 hover:text-pink-500 text-xl" title="History">
+  📜
+</a>
+
+    </div>
+  </div>
+
+  <div class="w-full h-1 bg-gray-700 dark:bg-gray-500 rounded-full overflow-hidden">
+    <div id="miniProgress" class="h-1 bg-cyan-400 w-0"></div>
+  </div>
+</nav>
+
+
+  <button id="themeBtn" class="px-3 py-1 bg-gray-700 dark:bg-gray-200 text-white dark:text-gray-900 rounded hover:bg-gray-800 dark:hover:bg-gray-300">Toggle Theme</button>
+</nav>
+
+
+  <div class="relative z-10 flex flex-col items-center p-6 gap-6">
+    
+
+    <div id="stopwatchCard"
+     class="neon-card bg-white glass dark:bg-gray-900 text-gray-900 dark:text-white p-4 rounded-xl shadow-2xl w-full md:w-2/3 flex flex-col items-center">
+    
+
+
+      <h2 class="gradient-text text-2xl md:text-3xl font-bold mb-6">Stopwatch</h2>
+
+   
+      <div class="flex gap-3 mb-6 w-full justify-center" >
+        <div class="flex flex-col items-center bg-gray-200 dark:bg-indigo-700 rounded-lg p-4 flex-1 shadow-lg">
+          <div id="hours" class="text-4xl md:text-5xl font-mono neon-number">00</div>
+
+          <span class="text-md md:text-lg mt-1 text-gray-900 dark:text-gray-200">Hours</span>
+        </div>
+        <div class="flex flex-col items-center bg-gray-200 dark:bg-indigo-700 rounded-lg p-4 flex-1 shadow-lg">
+          <div id="minutes" class="text-4xl md:text-5xl font-mono neon-number">00</div>
+          <span class="text-md md:text-lg mt-1 text-gray-900 dark:text-gray-200">Minutes</span>
+        </div>
+        <div class="flex flex-col items-center bg-gray-200 dark:bg-indigo-700 rounded-lg p-4 flex-1 shadow-lg">
+          <div id="seconds" class="text-4xl md:text-5xl font-mono neon-number">00</div>
+          <span class="text-md md:text-lg mt-1 text-gray-900 dark:text-gray-200">Seconds</span>
+        </div>
+        <div class="flex flex-col items-center bg-gray-200 dark:bg-indigo-700 rounded-lg p-4 flex-1 shadow-lg">
+          <div id="milliseconds" class="text-4xl md:text-5xl font-mono neon-number">000</div>
+          <span class="text-md md:text-lg mt-1 text-gray-900 dark:text-gray-200">Milliseconds</span>
+        </div>
+      </div>
+
+     
+      <div class="flex gap-4 w-full justify-center">
+        <button id="startBtn" class="neon-btn px-4 py-2 bg-green-500 text-white rounded">Start</button>
+        <button id="stopBtn" class="neon-btn px-4 py-2 bg-red-500 text-white rounded">Stop</button>
+        <button id="resetBtn" class="neon-btn px-4 py-2 bg-yellow-500 text-white rounded">Reset</button>
+      </div>
+    </div>
+
+
+    <div id="records" class="neon-card bg-white glass dark:bg-gray-900 text-gray-900 dark:text-white p-4 rounded-xl shadow-2xl w-full md:w-2/3 flex flex-col items-center">
+      <h2 class="gradient-text text-2xl md:text-3xl font-bold mb-4">Records</h2>
+      <div class="flex gap-3 mb-3">
+        <button id="recordBtn" class="neon-btn px-3 py-1 bg-blue-500 dark:bg-blue-600 text-white rounded hover:bg-blue-600 dark:hover:bg-blue-700">Record Time</button>
+        <button id="clearRecordsBtn" class="neon-btn px-3 py-1 bg-red-500 dark:bg-red-600 text-white rounded hover:bg-red-600 dark:hover:bg-red-700">Clear History</button>
+      </div>
+      <div class="overflow-x-auto w-full">
+        <table class="table-auto border-collapse border border-gray-600 w-full text-center">
+          <thead>
+            <tr class="bg-gray-300 dark:bg-indigo-700">
+              <th class="border border-gray-600 px-2 py-1">#</th>
+              <th class="border border-gray-600 px-2 py-1">Hours</th>
+              <th class="border border-gray-600 px-2 py-1">Minutes</th>
+              <th class="border border-gray-600 px-2 py-1">Seconds</th>
+              <th class="border border-gray-600 px-2 py-1">Milliseconds</th>
+            </tr>
+          </thead>
+          <tbody id="recordTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
